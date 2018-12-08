@@ -5,7 +5,7 @@ from sklearn.metrics import confusion_matrix
 from sklearn.metrics import classification_report
 
 train = fetch_20newsgroups(subset="train",shuffle=True)
-test = fetch_20newsgroups(subset="train",shuffle=True)
+test = fetch_20newsgroups(subset="test",shuffle=True)
 
 from sklearn.feature_extraction.text import CountVectorizer
 cnt_vect = CountVectorizer()
@@ -19,8 +19,8 @@ from sklearn.naive_bayes import MultinomialNB
 mnb = MultinomialNB()
 mnb.fit(X_train_tfidf,train.target)
 
-X_test_tf = cnt_vect.fit_transform(test.data)
-X_test_tfidf = tfidf.fit_transform(X_test_tf)
+X_test_tf = cnt_vect.transform(test.data)
+X_test_tfidf = tfidf.transform(X_test_tf)
 
 predicted = mnb.predict(X_test_tfidf)
 actual = test.target
