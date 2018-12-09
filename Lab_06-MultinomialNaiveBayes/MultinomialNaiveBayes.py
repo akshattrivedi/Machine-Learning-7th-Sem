@@ -32,6 +32,43 @@ print("CONFUSION MATRIX\n")
 print(confusion_matrix(actual,predicted))
 print("\n")
 print("CLASSIFICATION REPORT\n")
-print(classification_report(actual,predicted))
+print(classification_report(actual,predicted,target_names=train.target_names))
 print("\n")
+
+#EXTRA
+from io import StringIO
+
+print("SHAPE OF TRAINING AND TEST DATASETS")
+print("Train: ",X_train_tfidf.shape)
+print("Test : ",X_test_tfidf.shape)
+print()
+
+text = input("Enter the sentence to predict the class: ")
+sent = StringIO(text)
+sent_tf = cnt_vect.transform(sent)
+sent_tfidf = tfidf.transform(sent_tf)
+print("Shape(Sentence): ",sent_tfidf.shape)
+
+print()
+predict_sent = mnb.predict_proba(sent_tfidf)
+print("Vectorized Term Frequency- Inverse Document Frequency(TF-IDF)") 
+print(sent_tfidf)
+
+print()
+maximum = 0
+index   = 0
+
+print("PROBABILITIES OF THE SENTENCE WITH GIVEN CLASSES:")
+for i in range(len(train.target_names)):
+    print(train.target_names[i],":",predict_sent[0][i])
+    if(predict_sent[0][i] > maximum):
+        maximum = predict_sent[0][i]
+        index = i
+
+print()
+print("PREDICTED CLASS:",train.target_names[index])
+print()
+
+
+
 
